@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\ContentRepository\Domain\Model;
 
 /*
@@ -427,7 +428,7 @@ class Workspace
             $this->moveNodeVariantToTargetWorkspace($nodeToPublish, $targetWorkspace);
         }
 
-        $this->emitAfterNodePublishing($nodeToPublish, $targetWorkspace);
+        $this->emitAfterNodePublishing($nodeToPublish, $originalNodeWorkspace);
     }
 
     /**
@@ -737,15 +738,13 @@ class Workspace
     /**
      * Emits a signal when a node has been published.
      *
-     * The signal emits the source node and target workspace, i.e. the node contains its source
+     * The signal emits the node and source workspace, i.e. the node contains its target
      * workspace.
      *
      * @param NodeInterface $node The node that was published
-     * @param Workspace $targetWorkspace The publishing target workspace
+     * @param Workspace $sourceWorkspace The publishing source workspace
      * @return void
      * @Flow\Signal
      */
-    protected function emitAfterNodePublishing(NodeInterface $node, Workspace $targetWorkspace): void
-    {
-    }
+    protected function emitAfterNodePublishing(NodeInterface $node, Workspace $sourceWorkspace): void {}
 }

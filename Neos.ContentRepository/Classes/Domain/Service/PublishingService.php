@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\ContentRepository\Domain\Service;
 
 /*
@@ -118,8 +119,9 @@ class PublishingService implements PublishingServiceInterface
             $targetWorkspace = $node->getWorkspace()->getBaseWorkspace();
         }
         if ($targetWorkspace instanceof Workspace) {
+            $sourceWorkspace = $node->getWorkspace();
             $node->getWorkspace()->publishNode($node, $targetWorkspace);
-            $this->emitNodePublished($node, $targetWorkspace);
+            $this->emitNodePublished($node, $sourceWorkspace);
         }
     }
 
@@ -256,18 +258,16 @@ class PublishingService implements PublishingServiceInterface
     /**
      * Signals that a node has been published.
      *
-     * The signal emits the source node and target workspace, i.e. the node contains its source
+     * The signal emits the node and source workspace, i.e. the node contains its target
      * workspace.
      *
      * @param NodeInterface $node
-     * @param Workspace $targetWorkspace
+     * @param Workspace $sourceWorkspace
      * @return void
      * @Flow\Signal
      * @api
      */
-    public function emitNodePublished(NodeInterface $node, Workspace $targetWorkspace = null)
-    {
-    }
+    public function emitNodePublished(NodeInterface $node, Workspace $sourceWorkspace = null) {}
 
     /**
      * Signals that a node has been discarded.
